@@ -1,0 +1,35 @@
+version: '1.0'
+services:
+  db:
+    image: postgres:latest
+    container_name: openmusicdb
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: openmusicdb
+    ports:
+      - "5432:5432"
+  redis:
+    container_name: openmusicredis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=password
+
+volumes:
+  rabbitmq_data:   
+  redis_data:
+  db-data:
+    driver: local  
